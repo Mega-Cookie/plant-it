@@ -2,6 +2,9 @@ serverName: plantitserver
 dbName: plantitdatabase
 cacheName: plantitcache
 
+dbMountPath: /var/lib/mysql
+dbMountCapacity: 512Mi
+
 secret:
   name: plantitsecret
   data:

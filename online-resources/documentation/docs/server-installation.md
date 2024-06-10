@@ -409,27 +409,29 @@ You can get the API Key following the step in the relative section.
 ## Kubernetes Deployment
 This guide will help you deploy your project using Kubernetes with Minikube. Follow the steps below to set up and access your application.
 
-Please note that these instructions are meant to be taken as a template. To use actual custom configurations for the server, the provided files need to be edited accordingly.
-
 ### Prerequisites
 - Ensure you have Minikube installed and running.
 - Ensure `kubectl` is installed and configured to communicate with your Minikube cluster.
+- (if using [Helm](https://helm.sh/)) Ensure Helm is installed.
 
 ### Deployment Steps
-From the `deployment/kubernetes` [directory of the project](https://github.com/MDeLuise/plant-it/tree/main/deployment/kubernetes):
-1. **Run minikube:**
+
+#### Using kubectl
+First, download the contents of the `deployment/kubernetes` [directory from the project repository](https://github.com/MDeLuise/plant-it/tree/main/deployment/kubernetes), then:
+
+1. **Run Minikube:**
    ```sh
    minikube start --driver=docker --mount --mount-string="/tmp/plant-it-data:/mnt/data"
    ```
 
 2. **Deploy the DB Secrets:**
    ```sh
-   kubectl apply -f db-secret.yml
+   kubectl apply -f secret.yml
    ```
 
 3. **Deploy the DB ConfigMaps:**
    ```sh
-   kubectl apply -f db-config.yml
+   kubectl apply -f config.yml
    ```
 
 4. **Deploy the Database:**
@@ -446,6 +448,25 @@ From the `deployment/kubernetes` [directory of the project](https://github.com/M
    ```sh
    kubectl apply -f server.yml
    ```
+
+If you want to change the configuration values, edit the content of `config.yml` and `secret.yml` files.
+
+#### Using Helm
+First, download the contents of the `deployment/helm` [directory from the project repository](https://github.com/MDeLuise/plant-it/tree/main/deployment/helm), then:
+
+1. **Run Minikube:**
+   ```sh
+   minikube start --driver=docker --mount --mount-string="/tmp/plant-it-data:/mnt/data"
+   ```
+
+2. **Create and Modify `my-values.yml` File:**
+   Create a new file called `my-values.yml` to override the default settings provided in the `values.yml` file. You can copy the content from `values.yml` and modify it according to your configuration needs. This ensures your custom values are applied without altering the default configuration.
+
+3. **Install the Helm Chart:**
+   ```sh
+   helm install plantit helm --values helm/values.yml -f helm/my-values.yml
+   ```
+   This command confirms that the values in `helm/values.yml` will be used as the base configuration, and any values specified in `helm/my-values.yml` will override the defaults.
 
 ### Access the Application
 Once the deployment is complete, you can access the application and its Swagger UI at the following URLs:

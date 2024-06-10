@@ -4,21 +4,26 @@ This guide will help you deploy your project using Kubernetes with Minikube. Fol
 ## Prerequisites
 - Ensure you have Minikube installed and running.
 - Ensure `kubectl` is installed and configured to communicate with your Minikube cluster.
+- (if using [Helm](https://helm.sh/)) Ensure Helm is installed.
 
 ## Deployment Steps
-1. **Run minikube:**
+
+### Using kubectl
+From the `deployment/kubernetes` directory of the project:
+
+1. **Run Minikube:**
    ```sh
    minikube start --driver=docker --mount --mount-string="/tmp/plant-it-data:/mnt/data"
    ```
 
 2. **Deploy the DB Secrets:**
    ```sh
-   kubectl apply -f db-secret.yml
+   kubectl apply -f secret.yml
    ```
 
 3. **Deploy the DB ConfigMaps:**
    ```sh
-   kubectl apply -f db-config.yml
+   kubectl apply -f config.yml
    ```
 
 4. **Deploy the Database:**
@@ -34,6 +39,22 @@ This guide will help you deploy your project using Kubernetes with Minikube. Fol
 6. **Deploy the Server:**
    ```sh
    kubectl apply -f server.yml
+   ```
+
+### Using Helm
+From the `deployment` directory of the project:
+
+1. **Run Minikube:**
+   ```sh
+   minikube start --driver=docker --mount --mount-string="/tmp/plant-it-data:/mnt/data"
+   ```
+
+2. **Modify `values.yml` File:**
+   Adjust the `values.yml` file to fit your configuration needs. This file contains the customizable settings for your Helm chart.
+
+3. **Install the Helm Chart:**
+   ```sh
+   helm install plantit helm
    ```
 
 ## Access the Application

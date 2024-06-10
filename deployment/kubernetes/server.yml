@@ -21,22 +21,24 @@ spec:
         - containerPort: 8080
         - containerPort: 3000
         env:
-        - name: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_PSW
           valueFrom:
             secretKeyRef:
-              name: db-secret
-              key: db-password
-        - name: MYSQL_HOST
-          value: db-service
-        - name: MYSQL_PORT
-          value: "3306"
-        - name: MYSQL_DATABASE
+              name: plantitsecret
+              key: MYSQL_PSW
+        - name: JWT_SECRET
           valueFrom:
-            configMapKeyRef:
-              name: db-config
-              key: db-database
-        - name: CACHE_HOST
-          value: cache-service
+            secretKeyRef:
+              name: plantitsecret
+              key: JWT_SECRET
+        - name: TREFLE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: plantitsecret
+              key: TREFLE_KEY
+        envFrom:
+        - configMapRef:
+            name: plantitconfig
 ---
 apiVersion: v1
 kind: Service
