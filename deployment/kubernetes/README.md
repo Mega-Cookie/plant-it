@@ -6,27 +6,32 @@ This guide will help you deploy your project using Kubernetes with Minikube. Fol
 - Ensure `kubectl` is installed and configured to communicate with your Minikube cluster.
 
 ## Deployment Steps
-1. **Deploy the DB Secrets:**
+1. **Run minikube:**
+   ```sh
+   minikube start --driver=docker --mount --mount-string="/tmp/plant-it-data:/mnt/data"
+   ```
+
+2. **Deploy the DB Secrets:**
    ```sh
    kubectl apply -f db-secret.yml
    ```
 
-2. **Deploy the DB ConfigMaps:**
+3. **Deploy the DB ConfigMaps:**
    ```sh
    kubectl apply -f db-config.yml
    ```
 
-3. **Deploy the Database:**
+4. **Deploy the Database:**
    ```sh
    kubectl apply -f db.yml
    ```
 
-4. **Deploy the Cache:**
+5. **Deploy the Cache:**
    ```sh
    kubectl apply -f cache.yml
    ```
 
-5. **Deploy the Server:**
+6. **Deploy the Server:**
    ```sh
    kubectl apply -f server.yml
    ```
